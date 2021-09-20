@@ -18,7 +18,7 @@ const useStyles = makeStyles({
   }
 });
 
-function App(){
+function App() {
   const [new_city, setNew_city] = useState("")
   const [city_name, setCity_name] = useState("")
   const [checkedA, setcheckedA] = useState(true)
@@ -27,20 +27,20 @@ function App(){
   const [lat, setLat] = useState(0)
 
 
-  useEffect(()=>{
+  useEffect(() => {
     navigator.geolocation.getCurrentPosition((position) => {
       console.log("Latitude is :", position.coords.latitude);
       console.log("Longitude is :", position.coords.longitude);
       setLon(position.coords.longitude)
       setLat(position.coords.latitude)
     });
-  },[])
+  }, [])
 
-  useEffect(()=>{
+  useEffect(() => {
     Api_weather(lon, lat).then(response => {
       setCity_name(response.data.name)
     });
-  },[lon,lat])
+  }, [lon, lat])
 
 
   const onchange = (event) => {
@@ -54,33 +54,33 @@ function App(){
       setLat(response.data.coord.lat)
     })
   }
- 
-    return (
-      <div className="App">
-        <Container>
-          <div className="header">
-            <Typography vatiant="h1"><WiCloudy style={{ fontSize: "45px" }} /> WEATHER</Typography>
-            <div className="form">
-              <TextField id="standard-basic" label="City" value={new_city} onChange={onchange} />
-              <Button variant="outlined" onClick={onclick}>
-                Search
+
+  return (
+    <div className="App">
+      <Container>
+        <div className="header">
+          <Typography vatiant="h1"><WiCloudy style={{ fontSize: "45px" }} /> WEATHER</Typography>
+          <div className="form">
+            <TextField id="standard-basic" label="City" value={new_city} onChange={onchange} />
+            <Button variant="outlined" onClick={onclick}>
+              Search
             </Button>
-            </div>
-            <Typography > Weather {city_name} </Typography>
-            <Grid container spacing={3}>
-              <Grid xs={12} md={6} >
-                <Chart_weather_by_day lon={lon} lat={lat} />
-              </Grid>
-              <Grid xs={12} md={6}>
-                <Chart_weather_hours lon={lon} lat={lat} />
-              </Grid>
-              <Grid xs={12}>
-                <Weathertemp lon={lon} lat={lat} />
-              </Grid>
-            </Grid>
           </div>
-        </Container>
-      </div>
-    );
+          <Typography > Weather {city_name} </Typography>
+          <Grid container spacing={3}>
+            <Grid xs={12} md={6} >
+              <Chart_weather_by_day lon={lon} lat={lat} />
+            </Grid>
+            <Grid xs={12} md={6}>
+              <Chart_weather_hours lon={lon} lat={lat} />
+            </Grid>
+            <Grid xs={12}>
+              <Weathertemp lon={lon} lat={lat} />
+            </Grid>
+          </Grid>
+        </div>
+      </Container>
+    </div>
+  );
 }
 export default App;
